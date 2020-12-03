@@ -8,6 +8,14 @@ if(argv.h||argv._.length ===0){
   process.exit(0)
 }
 
+const waitSeocond = second => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve && resolve(true)
+    }, second * 1000)
+  })
+}
+
 const fetchData = async function(tag){
   const options = {
      url:`https://www.instagram.com/explore/tags/${tag}/?__a=1`,
@@ -41,13 +49,16 @@ const fetchData = async function(tag){
 
   let edges = data.graphql.hashtag.edge_hashtag_to_media.edges
   for(const k of edges){
+    await waitSeocond(.5)
     k.node.owner  = await getOwner(k.node.shortcode)
   }
   while(hasNext){
+    await waitSeocond(2)
     let list = await getNextPage(end_cursor)
     hasNext = list.page_info.has_next_page
     end_cursor = list.page_info.end_cursor
     for(const k of list.edges){
+      await waitSeocond(.5)
       k.node.owner  = await getOwner(k.node.shortcode)
     }
     edges = edges.concat(list.edges)
