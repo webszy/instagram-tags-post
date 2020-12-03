@@ -1,0 +1,21 @@
+{
+  "name": "instagram-tags-post",
+  "version": "1.0.0",
+  "description": "get instagram post by tags",
+  "main": "index.js",
+  "bin": {
+    "command-name": "./tagsaver.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "await-to-js": "^2.1.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
+    "yargs": "^16.1.1"
+  }
+}
