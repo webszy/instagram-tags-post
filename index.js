@@ -26,7 +26,8 @@ const fetchData = async function (tag) {
   const data = await request(options)
   let hasNext = data.graphql.hashtag.edge_hashtag_to_media.page_info.has_next_page
   let end_cursor = data.graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor
-
+  const total = data.graphql.hashtag.edge_hashtag_to_media.count
+  console.log(`there are ${total} post on this tag,please waiting...`,)
   const getNextPage = async (end_cursor) => {
     let variables = JSON.stringify({
       tag_name: tag,
