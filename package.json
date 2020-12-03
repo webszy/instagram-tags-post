@@ -1,6 +1,6 @@
 {
   "name": "instagram-tags-post",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "get instagram post by tags",
   "main": "index.js",
   "bin": {
