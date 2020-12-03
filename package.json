@@ -1,17 +1,29 @@
 {
   "name": "instagram-tags-post",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "get instagram post by tags",
   "main": "index.js",
   "bin": {
-    "command-name": "./tagsaver.js"
+    "tagsaver": "./index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webszy/instagram-tags-post.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webszy/instagram-tags-post/issues"
+  },
+  "homepage": "https://github.com/webszy/instagram-tags-post#readme",
+  "keywords": [
+    "instagram",
+    "tags",
+    "post"
+  ],
+  "author": "webszy",
+  "license": "MIT",
   "dependencies": {
     "await-to-js": "^2.1.1",
     "request": "^2.88.2",

@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 const argv = require('yargs').argv
 const request = require('./request')
-console.log(argv)
-if(argv.h){
-  console.log('example: tagfinder tagName --proxy=http://127.0.0.1:1080')
-  process.exit(0)
-}
+// console.log(argv)
 
-if(argv._.length ===0){
-  console.log('please input the tag which you want fetch')
+if(argv.h||argv._.length ===0){
+  console.log('example command: tagsaver tagName --proxy=http://127.0.0.1:1080')
   process.exit(0)
 }
 
@@ -57,11 +53,16 @@ const fetchData = async function(tag){
     edges = edges.concat(list.edges)
     console.log('current data rows: ',edges.length)
   }
-  try {
-    const path = require('path').join(__dirname,'./data.json')
-    require('fs').writeFileSync(path,JSON.stringify(edges))
+  save2json(edges,tag)
+}
+const save2json = (data,name)=>{
+   try {
+    const cwd = require('process').cwd()
+    const path = require('path').join(cwd,`./${name}.json`)
+    require('fs').writeFileSync(path,JSON.stringify(data))
   } catch (error) {
     console.log(error)
+    process.exit(1)
   }
 }
 console.log('tag which your inputed: ',argv._[0])
