@@ -70,7 +70,7 @@ const fetchData = async function (tag) {
 const save2json = (data, name) => {
   const cwd = require('process').cwd()
   const path = require('path').join(cwd, `./${name}.json`)
-  require('fs').writeFile(path, JSON.stringify(data), 'utf8',
+  require('fs').writeFile(path, JSON.stringify(data,null,4), 'utf8',
   (error) => {
     if(error){
       console.log(error)
