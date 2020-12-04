@@ -1,13 +1,5 @@
-#!/usr/bin/env node
-const argv = require('yargs').argv
 const request = require('./request')
-// console.log(argv)
-
-if (argv.h || argv._.length === 0) {
-  console.log('example command: tagsaver tagName --proxy=http://127.0.0.1:1080')
-  process.exit(0)
-}
-
+const Rx = require('rxjs/Rx')
 const waitSeocond = second => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -80,7 +72,7 @@ const fetchData = async function (tag) {
   save2json(edges, tag)
 }
 const save2json = (data, name) => {
-  const cwd = require('process').cwd()
+  const cwd = process.cwd()
   const path = require('path').join(cwd, `./${name}.json`)
   require('fs').writeFile(path, JSON.stringify(data,null,4), 'utf8',
   (error) => {
@@ -93,22 +85,21 @@ const save2json = (data, name) => {
     }
   })
 }
-const checkProxy = async ()=>{
-  const data = await request({
+const checkProxy = async (proxy)=>{
+  const fetch = request({
     url:'https://www.instagram.com/instagram/?__a=1',
-    proxy:argv.proxy
+    proxy:proxy
   })
-  if(!data){
-    console.log('your proxy is failed to request instagram')
-    process.exit(0)
-  }
-}
+  const observer = Rx.Observable.fromPromise(fetch)
 
-console.log('tag which your inputed: ', argv._[0])
-console.log('your proxy: ', argv.proxy ? argv.proxy : 'null')
-//check your proxy before
-if(argv.proxy){
-  checkProxy()
+  observer.subscribe({
+    error:e=>{console.log(e)},
+    next:res=>{console.log(res)}
+  })
 }
-
-fetchData(argv._[0])
+module.exports = {
+  waitSeocond,
+  checkProxy,
+  save2json,
+  fetchData
+}

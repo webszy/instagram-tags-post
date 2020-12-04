@@ -1,14 +1,14 @@
 {
   "name": "instagram-tags-post",
-  "version": "1.0.7",
-  "description": "get instagram post by tags",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "get instagram post by tags,powered by rxjs",
+  "main": "./src/index.js",
   "bin": {
-    "tagsaver": "./index.js"
+    "tagsaver": "./src/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"node ./index.js insanalysis --proxy=http://127.0.0.1:1080"
+    "dev": "node ./src/index.js insanalysis --proxy=http://127.0.0.1:1080"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,8 @@
     "await-to-js": "^2.1.1",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
+    "rxjs": "^6.6.3",
+    "rxjs-compat": "^6.6.3",
     "yargs": "^16.1.1"
   }
 }
