@@ -103,6 +103,7 @@ const checkProxy = async ()=>{
     process.exit(0)
   }
 }
+
 console.log('tag which your inputed: ', argv._[0])
 console.log('your proxy: ', argv.proxy ? argv.proxy : 'null')
 //check your proxy before
