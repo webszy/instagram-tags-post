@@ -15,7 +15,7 @@ const request = async function(options){
   if(!err && res){
     return res
   } else{
-    console.log(err,res)
+    console.log(err.message)
     return false
   }
 }

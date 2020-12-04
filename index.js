@@ -24,6 +24,9 @@ const fetchData = async function (tag) {
     options.proxy = argv.proxy
   }
   const data = await request(options)
+  if(!data){
+    return console.log('network error')
+  }
   let hasNext = data.graphql.hashtag.edge_hashtag_to_media.page_info.has_next_page
   let end_cursor = data.graphql.hashtag.edge_hashtag_to_media.page_info.end_cursor
   const total = data.graphql.hashtag.edge_hashtag_to_media.count
@@ -45,22 +48,31 @@ const fetchData = async function (tag) {
   const getOwner = async (shortcode) => {
     options.url = `https://www.instagram.com/p/${shortcode}/?__a=1`
     const owner = await request(options)
+    if(!owner){
+      return false
+    }
     return owner.graphql.shortcode_media.owner
   }
 
   let edges = data.graphql.hashtag.edge_hashtag_to_media.edges
   for (const k of edges) {
     await waitSeocond(.5)
-    k.node.owner = await getOwner(k.node.shortcode)
+    const data = await getOwner(k.node.shortcode)
+    if(data) { k.node.owner = data}
   }
   while (hasNext) {
     await waitSeocond(2)
     let list = await getNextPage(end_cursor)
+    if(!list){
+      console.log('network error')
+      continue
+    }
     hasNext = list.page_info.has_next_page
     end_cursor = list.page_info.end_cursor
     for (const k of list.edges) {
       await waitSeocond(.5)
-      k.node.owner = await getOwner(k.node.shortcode)
+      const data = await getOwner(k.node.shortcode)
+      if(data) { k.node.owner = data}
     }
     edges = edges.concat(list.edges)
     console.log('current data rows: ', edges.length)
@@ -81,6 +93,21 @@ const save2json = (data, name) => {
     }
   })
 }
+const checkProxy = async ()=>{
+  const data = await request({
+    url:'https://www.instagram.com/instagram/?__a=1',
+    proxy:argv.proxy
+  })
+  if(!data){
+    console.log('your proxy is failed to request instagram')
+    process.exit(0)
+  }
+}
 console.log('tag which your inputed: ', argv._[0])
 console.log('your proxy: ', argv.proxy ? argv.proxy : 'null')
+//check your proxy before
+if(argv.proxy){
+  checkProxy()
+}
+
 fetchData(argv._[0])
