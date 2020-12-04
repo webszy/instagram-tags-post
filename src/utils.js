@@ -90,12 +90,13 @@ const checkProxy = async (proxy)=>{
     url:'https://www.instagram.com/instagram/?__a=1',
     proxy:proxy
   })
-  const observer = Rx.Observable.fromPromise(fetch)
+  const observer = Rx.Observable.fromPromise(fetch).retry(2).delay(1000)
 
   observer.subscribe({
-    error:e=>{console.log(e)},
+    error:e=>{console.log(e);observer},
     next:res=>{console.log(res)}
   })
+  
 }
 module.exports = {
   waitSeocond,
